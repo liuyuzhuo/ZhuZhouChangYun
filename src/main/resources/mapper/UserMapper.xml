@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tencent.wxcloudrun.dao.UserMapper">
+
+
+    <insert id="saveMessage" parameterType="com.tencent.wxcloudrun.model.UserMessage">
+        insert into t_user_message
+            (phone_num,
+             car_num,
+             insurance_company,
+             insurance_expire_time,
+             longitude,
+             latitude,
+             open_id,
+             address)
+        values
+            (#{phoneNum},
+             #{carNum},
+             #{insuranceCompany},
+             #{insuranceExpireTime},
+             #{longitude},
+             #{latitude},
+             #{openId},
+             #{address})
+    </insert>
+</mapper>
