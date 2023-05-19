@@ -12,7 +12,7 @@ public class Counter implements Serializable {
 
   private Integer count;
 
-  private LocalDateTime createdAt;
+  private String createdAt;
 
-  private LocalDateTime updatedAt;
+  private String updatedAt;
 }
