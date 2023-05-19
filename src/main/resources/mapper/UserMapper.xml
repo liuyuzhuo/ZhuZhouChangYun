@@ -5,7 +5,8 @@
 
     <insert id="saveMessage" parameterType="com.tencent.wxcloudrun.model.UserMessage">
         insert into t_user_message
-            (phone_num,
+            (md5,
+             phone_num,
              car_num,
              insurance_company,
              insurance_expire_time,
@@ -14,7 +15,8 @@
              open_id,
              address)
         values
-            (#{phoneNum},
+            (#{md5},
+             #{phoneNum},
              #{carNum},
              #{insuranceCompany},
              #{insuranceExpireTime},

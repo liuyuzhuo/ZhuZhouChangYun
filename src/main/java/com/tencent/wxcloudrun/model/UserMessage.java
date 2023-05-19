@@ -9,6 +9,10 @@ import javax.validation.constraints.NotNull;
  */
 public class UserMessage {
     /**
+     * uuid，用于唯一标识一条记录
+     */
+    private String md5;
+    /**
      * 电话号码--必填
      */
     @NotBlank(message = "电话号码不能为空")
@@ -122,10 +126,19 @@ public class UserMessage {
         this.createTime = createTime;
     }
 
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
+    }
+
     @Override
     public String toString() {
         return "UserMessage{" +
-                "phoneNum='" + phoneNum + '\'' +
+                "md5='" + md5 + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
                 ", carNum='" + carNum + '\'' +
                 ", insuranceCompany='" + insuranceCompany + '\'' +
                 ", insuranceExpireTime='" + insuranceExpireTime + '\'' +

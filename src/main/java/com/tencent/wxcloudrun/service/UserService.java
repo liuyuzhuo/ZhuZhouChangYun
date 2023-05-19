@@ -13,4 +13,6 @@ public interface UserService {
      * @return 1保存成功 0保存失败
      */
     int saveAndSendMessage(UserMessage userMessage);
+
+    void test();
 }
