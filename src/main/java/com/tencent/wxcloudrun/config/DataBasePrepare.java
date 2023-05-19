@@ -19,7 +19,7 @@ public class DataBasePrepare {
     @Resource
     private UserService userService;
 
-    @PostConstruct
+//    @PostConstruct
     public void dataBaseInit(){
         ThreadPoolUtil.execute(() -> {
             try {
