@@ -24,8 +24,7 @@
 
     <update id="upsertCount" parameterType="com.tencent.wxcloudrun.model.Counter">
         INSERT INTO `Counters`(`id`, `count`)
-        VALUE(#{id}, #{count}) 
-        ON DUPLICATE KEY UPDATE count=#{count}
+        VALUES(#{id}, #{count})
     </update>
 
 </mapper>
