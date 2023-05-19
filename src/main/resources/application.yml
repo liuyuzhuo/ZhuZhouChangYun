@@ -2,10 +2,21 @@ server:
   port: 80
 
 
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://10.3.104.61:3306/springboot_demo
+#    username: root
+#    password: HQuDqC7J
+#  mvc:
+#    view:
+#      suffix: .html
+#      prefix: /
+
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://10.3.104.61:3306/springboot_demo
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:data.db
     username: root
     password: HQuDqC7J
   mvc:

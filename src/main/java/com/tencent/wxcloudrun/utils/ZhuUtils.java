@@ -1,5 +1,7 @@
 package com.tencent.wxcloudrun.utils;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
@@ -13,5 +15,13 @@ public class ZhuUtils {
      */
     public static String uuid(){
         return UUID.randomUUID().toString().replace("-","").toUpperCase();
+    }
+
+    /**
+     * 获取时间字符串
+     */
+    public static String now(){
+        LocalDateTime now = LocalDateTime.now();
+        return now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
     }
 }

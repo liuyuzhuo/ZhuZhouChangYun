@@ -10,4 +10,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper {
     int saveMessage(UserMessage userMessage);
+
+    void createTable_user_message();
+
+    void createTable_Counters();
 }

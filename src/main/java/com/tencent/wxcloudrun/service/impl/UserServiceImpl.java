@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public int saveAndSendMessage(final UserMessage userMessage) {
         userMessage.setMd5(ZhuUtils.uuid());
+        userMessage.setCreateTime(ZhuUtils.now());
         int a = userMapper.saveMessage(userMessage);
 
         //异步通知小程序管理员
@@ -65,6 +66,12 @@ public class UserServiceImpl implements UserService {
             logger.info(accessToken);
             send(userMessage,accessToken);
         });
+    }
+
+    @Override
+    public void initDataBase() {
+        userMapper.createTable_user_message();
+        userMapper.createTable_Counters();
     }
 
 
