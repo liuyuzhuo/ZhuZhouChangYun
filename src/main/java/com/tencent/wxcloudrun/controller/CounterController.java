@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.List;
@@ -67,6 +68,12 @@ public class CounterController {
       Counter counter = new Counter();
       counter.setId(1);
       counter.setCount(count);
+
+      File file = new File("/app/data.db");
+      if (file.exists()){
+        logger.info(file.length()+"---------------------");
+      }
+
       counterService.upsertCount(counter);
       return ApiResponse.ok(count);
     } else if (request.getAction().equals("clear")) {
