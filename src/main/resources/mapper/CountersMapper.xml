@@ -5,8 +5,8 @@
     <resultMap id="countersMapper" type="com.tencent.wxcloudrun.model.Counter">
         <id property="id" column="id"/>
         <result property="count" column="count"/>
-        <result property="createdAt" column="createdAt" javaType="java.time.LocalDateTime" />
-        <result property="updatedAt" column="updatedAt" javaType="java.time.LocalDateTime"  />
+        <result property="createdAt" column="createdAt"  />
+        <result property="updatedAt" column="updatedAt"   />
     </resultMap>
 
     <select id="getCounter" resultMap="countersMapper" parameterType="java.lang.Integer">
@@ -23,9 +23,8 @@
     </delete>
 
     <update id="upsertCount" parameterType="com.tencent.wxcloudrun.model.Counter">
-        INSERT INTO `Counters`(`id`, `count`)
-        VALUE(#{id}, #{count}) 
-        ON DUPLICATE KEY UPDATE count=#{count}
+        REPLACE INTO `Counters`(`id`, `count`)
+        VALUES(#{id}, #{count})
     </update>
 
 </mapper>
