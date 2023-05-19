@@ -69,10 +69,10 @@ public class CounterController {
       counter.setId(1);
       counter.setCount(count);
 
-      File file = new File("/app/data.db");
-      if (file.exists()){
-        logger.info(file.length()+"---------------------");
-      }
+//      File file = new File("/app/data.db");
+//      if (file.exists()){
+//        logger.info(file.length()+"---------------------");
+//      }
 
       counterService.upsertCount(counter);
       return ApiResponse.ok(count);
