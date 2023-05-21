@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void test() {
+    public UserMessage test() {
         UserMessage userMessage = SendWeChatMessage.randomUserMessage();
         userMessage.setMd5(ZhuUtils.uuid());
         userMessage.setCreateTime(ZhuUtils.now());
@@ -86,6 +86,7 @@ public class UserServiceImpl implements UserService {
             logger.info("开始通知管理员" + userMessage.toString());
             sendEnterpriseWxChat(userMessage,WEB_HOOK);
         });
+        return userMessage;
     }
 
     @Override

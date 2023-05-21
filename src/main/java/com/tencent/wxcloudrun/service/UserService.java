@@ -14,7 +14,7 @@ public interface UserService {
      */
     int saveAndSendMessage(UserMessage userMessage);
 
-    void test();
+    UserMessage test();
 
     void initDataBase();
 

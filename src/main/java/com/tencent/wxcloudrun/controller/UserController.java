@@ -3,6 +3,7 @@ package com.tencent.wxcloudrun.controller;
 import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.model.UserMessage;
 import com.tencent.wxcloudrun.service.UserService;
+import com.tencent.wxcloudrun.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,8 +41,7 @@ public class UserController {
 
     @GetMapping("/user/test")
     public ApiResponse test(){
-        userService.test();
-        return ApiResponse.ok();
+        return ApiResponse.ok(UserServiceImpl.buildWxMessage(userService.test()));
     }
 
     @GetMapping("/user/clean")
