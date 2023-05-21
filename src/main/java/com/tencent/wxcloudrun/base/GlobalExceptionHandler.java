@@ -29,6 +29,7 @@ public class GlobalExceptionHandler {
         //多个错误，取第一个
         FieldError error = fieldErrors.get(0);
         String msg = error.getDefaultMessage();
+        logger.info("参数校验出错:" + msg);
         return ApiResponse.error(msg);
     }
 

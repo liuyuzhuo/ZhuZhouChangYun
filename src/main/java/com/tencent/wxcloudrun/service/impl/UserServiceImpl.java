@@ -60,6 +60,7 @@ public class UserServiceImpl implements UserService {
     public int saveAndSendMessage(final UserMessage userMessage) {
         userMessage.setMd5(ZhuUtils.uuid());
         userMessage.setCreateTime(ZhuUtils.now());
+        logger.info("接收到消息：" + userMessage.toString());
         int a = userMapper.saveMessage(userMessage);
 
         //异步通知小程序管理员
