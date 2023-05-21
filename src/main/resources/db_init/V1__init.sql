@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS `t_user_message`  (
 `latitude` REAL NOT NULL ,-- COMMENT '纬度',
 `open_id` TEXT NOT NULL ,-- COMMENT '用户openid',
 `address` TEXT DEFAULT '' ,-- COMMENT '地址',
-`create_time` TEXT NOT NULL -- COMMENT '创建时间'
+`create_time` TEXT NOT NULL, -- COMMENT '创建时间'
+`send_status` REAL NOT NULL DEFAULT 0 -- COMMENT '消息推送状态【0:未推送，1：已推送】'
 ) ;
 
 CREATE TABLE IF NOT EXISTS `Counters`  (

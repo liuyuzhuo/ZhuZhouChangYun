@@ -17,4 +17,6 @@ public interface UserService {
     void test();
 
     void initDataBase();
+
+    int cleanUserMessage();
 }

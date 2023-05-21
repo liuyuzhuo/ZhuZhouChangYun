@@ -54,6 +54,11 @@ public class UserMessage {
      */
     private String createTime;
 
+    /**
+     * 推送状态
+     */
+    private Integer sendStatus;
+
     public String getPhoneNum() {
         return phoneNum;
     }
@@ -132,6 +137,14 @@ public class UserMessage {
 
     public void setMd5(String md5) {
         this.md5 = md5;
+    }
+
+    public Integer getSendStatus() {
+        return sendStatus;
+    }
+
+    public void setSendStatus(Integer sendStatus) {
+        this.sendStatus = sendStatus;
     }
 
     @Override

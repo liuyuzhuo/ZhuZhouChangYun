@@ -14,4 +14,9 @@ public interface UserMapper {
     void createTable_user_message();
 
     void createTable_Counters();
+
+    int updateSendStatus(UserMessage userMessage);
+
+    int cleanUserMessage();
+
 }
