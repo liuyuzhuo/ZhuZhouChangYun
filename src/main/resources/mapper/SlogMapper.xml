@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tencent.wxcloudrun.dao.SlogMapper">
+
+
+    <insert id="save" parameterType="com.tencent.wxcloudrun.model.Slog">
+        insert into mk_slog (
+                 user_id,createtime,font_color,bg_color,stype_id,name,image,status
+        ) values (
+                #{userId},#{createtime},#{fontColor},#{bgColor},#{stypeId},#{name},#{image},#{status}
+                         )
+    </insert>
+</mapper>

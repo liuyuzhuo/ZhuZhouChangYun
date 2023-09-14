@@ -1,7 +1,12 @@
 package com.tencent.wxcloudrun.dao;
 
+import com.tencent.wxcloudrun.model.Slog;
+import com.tencent.wxcloudrun.model.User;
 import com.tencent.wxcloudrun.model.UserMessage;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author liuyuzhuo
@@ -9,14 +14,11 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface UserMapper {
-    int saveMessage(UserMessage userMessage);
 
-    void createTable_user_message();
 
-    void createTable_Counters();
+    User getUserByOpenId(@Param("openid") String openid);
 
-    int updateSendStatus(UserMessage userMessage);
+    List<Slog> getSlogList( User user);
 
-    int cleanUserMessage();
-
+    int save(User user);
 }

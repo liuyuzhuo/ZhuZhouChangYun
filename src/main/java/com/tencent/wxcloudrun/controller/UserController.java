@@ -29,29 +29,5 @@ public class UserController {
     @Value("${clean.pwd:clean.zzcy.321123}")
     private String cleanPwd;
 
-    @PostMapping("/user/saveMessage")
-    public ApiResponse saveMessage(@RequestBody @Validated UserMessage userMessage){
-        int a = userService.saveAndSendMessage(userMessage);
-        if (a > 0){
-            return ApiResponse.ok("保存成功");
-        }else {
-            return ApiResponse.error("保存失败");
-        }
-    }
 
-    @GetMapping("/user/test")
-    public ApiResponse test(){
-        return ApiResponse.ok(UserServiceImpl.buildWxMessage(userService.test()));
-    }
-
-    @GetMapping("/user/clean")
-    public ApiResponse cleanUserMessage(){
-        String pwd = request.getParameter("pwd");
-        if (cleanPwd.equals(pwd)){
-            int a = userService.cleanUserMessage();
-            return ApiResponse.ok("clean success：" + a);
-        }else {
-            return ApiResponse.error("没有权限");
-        }
-    }
 }

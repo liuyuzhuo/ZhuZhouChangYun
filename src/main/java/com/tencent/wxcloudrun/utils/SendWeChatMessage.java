@@ -19,32 +19,7 @@ public class SendWeChatMessage {
     public static void main(String[] args) throws Exception {
         Random random = new Random();
 
-        String webhook = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=d977753d-5805-4125-898a-c813931fcb30";
-        for (int i = 0; i < 1; i++) {
-            JSONObject json = new JSONObject();
-            json.put("msgtype", "text");
-            JSONObject text = new JSONObject();
-            UserMessage userMessage = randomUserMessage();
-            text.put("content", UserServiceImpl.buildWxMessage(userMessage));
-            json.put("text", text);
-            StringEntity se = new StringEntity(json.toJSONString(), "utf-8");
-            HttpPost httpPost = new HttpPost(webhook);
-            httpPost.setEntity(se);
-            httpPost.setHeader("Content-Type", "application/json;charset=utf8");
-            try (CloseableHttpClient httpClient = HttpClients.createDefault();
-                    CloseableHttpResponse response = httpClient.execute(httpPost)) {
-                HttpEntity entity = response.getEntity();
-                if (entity != null) {
-                    String result = EntityUtils.toString(entity, "utf-8");
-                    //{"errcode":0,"errmsg":"ok"}
-                    System.out.println(result);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
 
-            TimeUnit.SECONDS.sleep(random.nextInt(15));
-        }
     }
 
     public static UserMessage randomUserMessage(){

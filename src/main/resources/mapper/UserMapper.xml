@@ -1,60 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.tencent.wxcloudrun.dao.UserMapper">
-
-
-    <insert id="saveMessage" parameterType="com.tencent.wxcloudrun.model.UserMessage">
-        insert into t_user_message
-            (md5,
-             phone_num,
-             car_num,
-             insurance_company,
-             insurance_expire_time,
-             longitude,
-             latitude,
-             open_id,
-             address,
-             create_time)
-        values
-            (#{md5},
-             #{phoneNum},
-             #{carNum},
-             #{insuranceCompany},
-             #{insuranceExpireTime},
-             #{longitude},
-             #{latitude},
-             #{openId},
-             #{address},
-             #{createTime})
+    <insert id="save" parameterType="com.tencent.wxcloudrun.model.User">
+        insert into mk_user (
+              nickname,salt,score,prevtime,logintime,loginip,joinip,jointime,createtime,updatetime,openid,status,token,avatar
+        ) values (
+                  #{nickname},#{salt},#{score},#{prevtime},#{logintime},#{loginip},#{joinip},#{jointime},#{createtime},#{updatetime},#{openid},#{status},#{token},#{avatar}
+                         )
     </insert>
-    <update id="createTable_user_message">
-        CREATE TABLE IF NOT EXISTS `t_user_message`  (
-             `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,-- COMMENT '主键',
-             `md5` TEXT NOT NULL ,-- COMMENT '业务主键',
-             `phone_num` TEXT NOT NULL ,-- COMMENT '手机号',
-             `car_num` TEXT NOT NULL ,-- COMMENT '车牌号',
-             `insurance_company` TEXT DEFAULT '' ,-- COMMENT '保险公司',
-             `insurance_expire_time` TEXT ,-- COMMENT '保险到期日期',
-             `longitude` REAL NOT NULL ,-- COMMENT '经度',
-             `latitude` REAL NOT NULL ,-- COMMENT '纬度',
-             `open_id` TEXT NOT NULL ,-- COMMENT '用户openid',
-             `address` TEXT DEFAULT '' ,-- COMMENT '地址',
-             `create_time` TEXT NOT NULL, -- COMMENT '创建时间'
-             `send_status` REAL NOT NULL DEFAULT 0 -- COMMENT '消息推送状态【0:未推送，1：已推送】'
-        ) ;
-    </update>
-    <update id="createTable_Counters">
-        CREATE TABLE IF NOT EXISTS `Counters`  (
-           `id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,-- COMMENT '主键',
-           `count` REAL NOT NULL DEFAULT 1,
-           `createdAt` TEXT  ,
-           `updatedAt` TEXT
-        ) ;
-    </update>
-    <update id="updateSendStatus" parameterType="com.tencent.wxcloudrun.model.UserMessage">
-        UPDATE t_user_message  SET send_status = #{sendStatus} WHERE md5 = #{md5}
-    </update>
-    <delete id="cleanUserMessage">
-        DELETE FROM t_user_message
-    </delete>
+
+
+    <select id="getUserByOpenId" resultType="com.tencent.wxcloudrun.model.User">
+        select id,nickname,score,openid,status from mk_user where openid = #{openid}
+    </select>
+    <select id="getSlogList" resultType="com.tencent.wxcloudrun.model.Slog" parameterType="com.tencent.wxcloudrun.model.User">
+        select id,name,user_id,image,font_color,bg_color,stype_id,createtime,status from mk_slog
+        <where>
+            <if test="id != null and id != ''">
+                and user_id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="createtime != null and createtime != ''">
+                and DATE(FROM_UNIXTIME(createtime)) = CURDATE()
+            </if>
+        </where>
+            order by createtime desc LIMIT 10
+    </select>
 </mapper>

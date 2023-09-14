@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tencent.wxcloudrun.dao.ConfigMapper">
+
+
+    <select id="listConfig" resultType="com.tencent.wxcloudrun.model.Config">
+        select id,name,value from mk_config where name in
+        <foreach collection="nameList" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

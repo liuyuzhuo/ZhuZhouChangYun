@@ -24,7 +24,6 @@ public class DataBasePrepare {
         ThreadPoolUtil.execute(() -> {
             try {
                 TimeUnit.SECONDS.sleep(3L);
-                userService.initDataBase();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
