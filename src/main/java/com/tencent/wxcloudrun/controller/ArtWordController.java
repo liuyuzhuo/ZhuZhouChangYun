@@ -177,7 +177,14 @@ public class ArtWordController {
         HttpResponse response = HttpUtil.createPost("http://www.yishuzi.com/make_ysz.php?file=a")
                 .setReadTimeout(15 * 1000)
                 .setConnectionTimeout(5 * 1000)
-                .body(param.toJSONString())
+                .form("id",textToImageVo.getName())
+                .form("zhenbi",20191123)
+                .form("id1",stypeById.getSid())
+                .form("id2",colorToSix(textToImageVo.getBg_color()))
+                .form("id3","")
+                .form("id4","#000000")
+                .form("id5","")
+                .form("id6",colorToSix(textToImageVo.getFont_color()))
                 .execute();
         //<img src="http://76.84c.cn/cdn/136/1267.png?09111053337098">
         String body = response.body();
@@ -190,6 +197,7 @@ public class ArtWordController {
         slog.setStypeId(textToImageVo.getStype_id());
         slog.setName(textToImageVo.getName());
 
+        body = body.replace("\uFEFF","");
         if (body.startsWith("<img src")){
             imageUrl = body.substring(body.indexOf("\"")+1,body.lastIndexOf("\""));
             slog.setImage(imageUrl);
@@ -213,8 +221,12 @@ public class ArtWordController {
         InputStream inputStream = conn.getInputStream();
         IOUtils.copy(inputStream, output);
         String path = File.separator + day + File.separator + ZhuUtils.uuid() + ".jpg";
-        FileUtil.writeBytes(output.toByteArray(),jarFilePath + File.separator + "public/uploads" + path);
-        slog.setImage("http://localhost:9999/uploads" + path);
+        String localPath = jarFilePath + File.separator + "public/uploads" + path;
+        System.out.println(localPath);
+        FileUtil.writeBytes(output.toByteArray(),localPath);
+        //slog.setImage("http://localhost:9999/uploads" + path);
+        //本地路径和第三方网络路径都保存下，后面解决了静态资源代理再说
+        slog.setImage(localPath+","+imageUrl);
         slogMapper.save(slog);
         try {
             output.close();
@@ -223,8 +235,7 @@ public class ArtWordController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return ApiResponse.ok(slogMapper.save(slog));
+        return ApiResponse.ok("生成成功",imageUrl);
     }
 
     /**
@@ -337,6 +348,9 @@ public class ArtWordController {
         User query = new User();
         query.setId(tokenUser.getId());
         List<Slog> slogList = userMapper.getSlogList(query);
+        for (Slog slog : slogList) {
+            slog.setImage(slog.getImage().split(",")[1]);
+        }
         return ApiResponse.ok("ok", slogList);
     }
 }
