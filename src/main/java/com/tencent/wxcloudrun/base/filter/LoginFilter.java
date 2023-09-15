@@ -1,6 +1,7 @@
 package com.tencent.wxcloudrun.base.filter;
 
 import cn.hutool.cache.CacheUtil;
+import cn.hutool.core.io.FileUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.model.User;
@@ -27,6 +28,16 @@ public class LoginFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest)servletRequest;
         String requestURI = request.getRequestURI();
         System.out.println(requestURI);
+        if ((requestURI.startsWith("/www/wwwroot/yishu.sougouxm.com/uploads") || requestURI.startsWith("/uploads")) && requestURI.endsWith(".jpg")){
+            ServletOutputStream outputStream = servletResponse.getOutputStream();
+            String filePath = requestURI;
+            if (requestURI.startsWith("/uploads")){
+                filePath = "/data/yishu/public" + filePath;
+            }
+            outputStream.write(FileUtil.readBytes(filePath));
+            outputStream.flush();
+            return;
+        }
         if (requestURI.startsWith("/api/index/mpTtLogin")
                 || requestURI.startsWith("/api/index/index")  ){
 
