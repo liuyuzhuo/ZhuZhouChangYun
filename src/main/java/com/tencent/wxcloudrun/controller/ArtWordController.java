@@ -201,12 +201,12 @@ public class ArtWordController {
         if (body.startsWith("<img src")){
             imageUrl = body.substring(body.indexOf("\"")+1,body.lastIndexOf("\""));
             slog.setImage(imageUrl);
-            slog.setStatus(0);
+            slog.setStatus(1);
         }else {
             slog.setImage(imageUrl);
-            slog.setStatus(1);
+            slog.setStatus(0);
             slogMapper.save(slog);
-            return ApiResponse.error("系统繁忙");
+            return ApiResponse.error("包含敏感词汇");
         }
 
         //保存文件到本地目录

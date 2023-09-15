@@ -16,6 +16,7 @@
     <select id="getSlogList" resultType="com.tencent.wxcloudrun.model.Slog" parameterType="com.tencent.wxcloudrun.model.User">
         select id,name,user_id,image,font_color,bg_color,stype_id,createtime,status from mk_slog
         <where>
+            status = 1
             <if test="id != null and id != ''">
                 and user_id = #{id}
             </if>
