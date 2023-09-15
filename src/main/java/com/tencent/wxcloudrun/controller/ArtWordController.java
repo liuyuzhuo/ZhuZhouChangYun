@@ -16,6 +16,7 @@ import com.tencent.wxcloudrun.service.ArtWordService;
 import com.tencent.wxcloudrun.utils.Token;
 import com.tencent.wxcloudrun.utils.ZhuUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +55,8 @@ public class ArtWordController {
     private SlogMapper slogMapper;
     @Resource
     private HttpServletRequest request;
+    @Value("${yi.shu.zi.domain}")
+    private String domain;
 
     /**
      * 获取字体选项
@@ -221,12 +224,17 @@ public class ArtWordController {
         InputStream inputStream = conn.getInputStream();
         IOUtils.copy(inputStream, output);
         String path = File.separator + day + File.separator + ZhuUtils.uuid() + ".jpg";
-        String localPath = jarFilePath + File.separator + "public/uploads" + path;
-        System.out.println(localPath);
+        String localPath = "/www/wwwroot/yishu.sougouxm.com/uploads" + path;
+        File file = new File(localPath);
+        System.out.println("文件存储路径："+file);
+        System.out.println(file.getParent());
+        System.out.println("开始创建文件夹："+file.getParent());
+        boolean mkdirs = file.getParentFile().mkdirs();
+        System.out.println("创建文件夹结果："+mkdirs);
         FileUtil.writeBytes(output.toByteArray(),localPath);
         //slog.setImage("http://localhost:9999/uploads" + path);
         //本地路径和第三方网络路径都保存下，后面解决了静态资源代理再说
-        slog.setImage(localPath+","+imageUrl);
+        slog.setImage(domain+localPath+","+imageUrl);
         slogMapper.save(slog);
         try {
             output.close();
@@ -349,7 +357,10 @@ public class ArtWordController {
         query.setId(tokenUser.getId());
         List<Slog> slogList = userMapper.getSlogList(query);
         for (Slog slog : slogList) {
-            slog.setImage(slog.getImage().split(",")[1]);
+            String[] arr = slog.getImage().split(",");
+            if (arr.length==2){
+                slog.setImage(arr[0]);
+            }
         }
         return ApiResponse.ok("ok", slogList);
     }
