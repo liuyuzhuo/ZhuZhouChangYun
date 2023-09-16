@@ -282,10 +282,10 @@ public class ArtWordController {
                 .body(param.toJSONString())
                 .execute();
         JSONObject jsonObject = JSONObject.parseObject(response.body());
-        JSONObject data = jsonObject.getJSONObject("data");
-        if (data != null){
-            JSONArray predicts = data.getJSONArray("predicts");
-            if (predicts != null){
+        JSONArray dataArr = jsonObject.getJSONArray("data");
+        if (dataArr != null && dataArr.size() > 0){
+            JSONArray predicts = dataArr.getJSONObject(0).getJSONArray("predicts");
+            if (predicts != null && predicts.size() > 0){
                 JSONObject res = predicts.getJSONObject(0);
                 Boolean hit = res.getBoolean("hit");
                 if (hit != null && hit){
