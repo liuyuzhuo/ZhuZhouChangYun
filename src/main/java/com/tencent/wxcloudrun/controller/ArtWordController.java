@@ -243,7 +243,7 @@ public class ArtWordController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return ApiResponse.ok("生成成功",imageUrl);
+        return ApiResponse.ok("生成成功",domain+localPath);
     }
 
     /**
