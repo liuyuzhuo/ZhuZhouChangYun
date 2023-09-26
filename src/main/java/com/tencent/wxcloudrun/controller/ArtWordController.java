@@ -58,6 +58,9 @@ public class ArtWordController {
     @Value("${yi.shu.zi.domain}")
     private String domain;
 
+    private final String tt_appid = "tt_appid2";
+    private final String tt_secret = "tt_secret2";
+
     /**
      * 获取字体选项
      */
@@ -85,11 +88,11 @@ public class ArtWordController {
         if (StringUtil.isEmpty(loginVo.getCode())){
             return ApiResponse.error("code不能为空");
         }
-        List<Config> configs = artWordService.listConfig(new ArrayList<>(Arrays.asList("tt_appid", "tt_secret","default_avatar","register_score")));
+        List<Config> configs = artWordService.listConfig(new ArrayList<>(Arrays.asList(tt_appid, tt_secret,"default_avatar","register_score")));
         Map<String, String> configMap = configs.stream().collect(Collectors.toMap(Config::getName,  Config::getValue, (oldValue, newValue) -> oldValue));
         JSONObject param = new JSONObject()
-                .fluentPut("appid",configMap.get("tt_appid"))
-                .fluentPut("secret",configMap.get("tt_secret"))
+                .fluentPut("appid",configMap.get(tt_appid))
+                .fluentPut("secret",configMap.get(tt_secret))
                 .fluentPut("code",loginVo.getCode())
                 .fluentPut("anonymous_code","");
 
@@ -300,11 +303,11 @@ public class ArtWordController {
      * 获取AccessToken
      */
     private String getAccessTokenTt(){
-        List<Config> configs = artWordService.listConfig(new ArrayList<>(Arrays.asList("tt_appid", "tt_secret")));
+        List<Config> configs = artWordService.listConfig(new ArrayList<>(Arrays.asList(tt_appid, tt_secret)));
         Map<String, String> configMap = configs.stream().collect(Collectors.toMap(Config::getName,  Config::getValue, (oldValue, newValue) -> oldValue));
         JSONObject param = new JSONObject()
-                .fluentPut("appid",configMap.get("tt_appid"))
-                .fluentPut("secret",configMap.get("tt_secret"))
+                .fluentPut("appid",configMap.get(tt_appid))
+                .fluentPut("secret",configMap.get(tt_secret))
                 .fluentPut("grant_type","client_credential");
         HttpResponse response = HttpUtil.createPost("https://developer.toutiao.com/api/apps/v2/token")
                 .setConnectionTimeout(5 * 1000)
