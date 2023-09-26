@@ -70,4 +70,21 @@ public class ZhuUtils {
         return Token.get(request.getHeader("token"));
     }
 
+    public static String outMsg(String msg,Object...args){
+        if (args == null || args.length == 0){
+            return msg;
+        }
+        for (int i = 0; i < args.length; i++) {
+            Object arg = args[i];
+            if (arg == null){
+                arg = "";
+            }
+            String replaceMent = arg.toString();
+            final String RDS_CHAR_DOLLAR = "WHALEFALL_RDS_CHAR_DOLLAR";
+            replaceMent = replaceMent.replaceAll("\\$",RDS_CHAR_DOLLAR);
+            msg = msg.replaceFirst("\\{\\s*\\}",replaceMent);
+            msg = msg.replace(RDS_CHAR_DOLLAR,"$");
+        }
+        return msg;
+    }
 }

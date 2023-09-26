@@ -57,17 +57,26 @@ public class ArtWordController {
     private HttpServletRequest request;
     @Value("${yi.shu.zi.domain}")
     private String domain;
+    
+
+    private String getAppKey(){
+        String appKey = request.getHeader("appKey");
+        if (appKey == null){
+            appKey = "";
+        }
+        return appKey;
+    }
 
     /**
      * 获取字体选项
      */
     @PostMapping("index")
     public ApiResponse getFontTypeList(){
-        List<Config> configs = artWordService.listConfig(new ArrayList<>(Arrays.asList("logo", "tt_jl")));
+        List<Config> configs = artWordService.listConfig(new ArrayList<>(Arrays.asList("logo", ZhuUtils.outMsg("tt_jl{}",getAppKey()) )));
         Map<String, String> configMap = configs.stream().collect(Collectors.toMap(Config::getName,  Config::getValue, (oldValue, newValue) -> oldValue));
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("logo",configMap.get("logo"));
-        jsonObject.put("tt_jl",configMap.get("tt_jl"));
+        jsonObject.put("tt_jl",configMap.get(ZhuUtils.outMsg("tt_jl{}",getAppKey())));
 
         List<Stype> stypes = artWordService.listStype();
         jsonObject.put("chinese",stypes);
@@ -85,11 +94,13 @@ public class ArtWordController {
         if (StringUtil.isEmpty(loginVo.getCode())){
             return ApiResponse.error("code不能为空");
         }
-        List<Config> configs = artWordService.listConfig(new ArrayList<>(Arrays.asList("tt_appid", "tt_secret","default_avatar","register_score")));
+        String tt_appid = ZhuUtils.outMsg("tt_appid{}", getAppKey());
+        String tt_secret = ZhuUtils.outMsg("tt_secret{}", getAppKey());
+        List<Config> configs = artWordService.listConfig(new ArrayList<>(Arrays.asList(tt_appid, tt_secret,"default_avatar","register_score")));
         Map<String, String> configMap = configs.stream().collect(Collectors.toMap(Config::getName,  Config::getValue, (oldValue, newValue) -> oldValue));
         JSONObject param = new JSONObject()
-                .fluentPut("appid",configMap.get("tt_appid"))
-                .fluentPut("secret",configMap.get("tt_secret"))
+                .fluentPut("appid",configMap.get(tt_appid))
+                .fluentPut("secret",configMap.get(tt_secret))
                 .fluentPut("code",loginVo.getCode())
                 .fluentPut("anonymous_code","");
 
@@ -300,11 +311,13 @@ public class ArtWordController {
      * 获取AccessToken
      */
     private String getAccessTokenTt(){
-        List<Config> configs = artWordService.listConfig(new ArrayList<>(Arrays.asList("tt_appid", "tt_secret")));
+        String tt_appid = ZhuUtils.outMsg("tt_appid{}", getAppKey());
+        String tt_secret = ZhuUtils.outMsg("tt_secret{}", getAppKey());
+        List<Config> configs = artWordService.listConfig(new ArrayList<>(Arrays.asList(tt_appid, tt_secret)));
         Map<String, String> configMap = configs.stream().collect(Collectors.toMap(Config::getName,  Config::getValue, (oldValue, newValue) -> oldValue));
         JSONObject param = new JSONObject()
-                .fluentPut("appid",configMap.get("tt_appid"))
-                .fluentPut("secret",configMap.get("tt_secret"))
+                .fluentPut("appid",configMap.get(tt_appid))
+                .fluentPut("secret",configMap.get(tt_secret))
                 .fluentPut("grant_type","client_credential");
         HttpResponse response = HttpUtil.createPost("https://developer.toutiao.com/api/apps/v2/token")
                 .setConnectionTimeout(5 * 1000)
